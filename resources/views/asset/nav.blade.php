@@ -18,7 +18,6 @@
                              $permissions = DB::table('permissions')->get();
                              $roles = DB::table('roles')->get();
                          @endphp
-
                          @foreach ($roles as $role)
                              @foreach ($rhps as $rhp)
                                  @foreach ($permissions as $permission)
@@ -35,14 +34,21 @@
                                                  <li>
                                                      @if ($value == 'users')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}">users</a>
+                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
                                                          {{-- <a class="btn btn-success" href="{{ route('') }}">users</a> --}}
                                                      @elseif ($value == 'roles')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}">Roles</a>
+                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
                                                      @elseif ($value == 'permissions')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}">Permissions</a>
+                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
+                                                     @elseif ($value == 'projects')
+                                                         <a class="btn btn-primary"
+                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
                                                      @else
                                                      @endif
                                                  </li>
