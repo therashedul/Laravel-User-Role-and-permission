@@ -407,7 +407,7 @@
 </head>
 
 <body class="antialiased">
-    {{-- <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
         <a class="dropdown-item" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                                                                                                          document.getElementById('logout-form').submit();">
@@ -417,7 +417,7 @@
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>
-    </div> --}}
+    </div> 
 
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">

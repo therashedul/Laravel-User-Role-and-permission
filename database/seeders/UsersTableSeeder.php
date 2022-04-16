@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use DB;
+
 class UsersTableSeeder extends Seeder
 {
     /**
@@ -13,17 +14,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-         DB::table('users')->insert([
+       DB::table('users')->insert([
             'role_id' => '1',
             'status_id' => '1',
-            'name' => 'Admin',
+            'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('123456789'),
         ]);
         DB::table('users')->insert([
             'role_id' => '2',
             'status_id' => '1',
-            'name' => 'Executive',
+            'name' => 'executive',
             'email' => 'executive@gmail.com',
             'password' => bcrypt('123456789'),
         ]);
