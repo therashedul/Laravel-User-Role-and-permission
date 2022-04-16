@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('users')->insert([
+        DB::table('users')->insert([
             'role_id' => '1',
             'status_id' => '1',
             'name' => 'admin',
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'role_id' => '2',
             'status_id' => '1',
-            'name' => 'executive',
+            'name' => 'axecutive',
             'email' => 'executive@gmail.com',
             'password' => bcrypt('123456789'),
         ]);

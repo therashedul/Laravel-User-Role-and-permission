@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\Permission;
 use DB;
 
-
 class PermissionsTableSeeder extends Seeder
 {
     /**
@@ -16,19 +15,18 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-       $data = [
-           
+        $data = [
+            'menu-roles',
+            'menu-permissions',
+            'menu-users',
             'role-list',
             'role-create',
             'role-edit',
-            'role-delete',
-            'menu-users',
-            'menu-roles',
-            'menu-permissions',
+            'role-delete',            
             'user-list',
             'user-create',
             'user-edit',
-            'user-delete',            
+            'user-delete',
             'permission-list',
             'permission-create',
             'permission-edit',
