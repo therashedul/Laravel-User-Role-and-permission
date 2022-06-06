@@ -29,25 +29,44 @@
                                              @if (stristr($name, 'menu'))
                                                  @php
                                                      $value = substr(strstr($name, '-'), 1);
-                                                     //  echo $value;
+                                                     $role_id = Auth::user()->role_id;
+                                                     $nameRole = DB::table('roles')
+                                                         ->where('id', $role_id)
+                                                         ->get();
+                                                     $role_name = $nameRole[0]->name;
                                                  @endphp
                                                  <li>
                                                      @if ($value == 'users')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             href="{{ route($role_name . '.' . $value) }}"
                                                              style="text-transform: uppercase;">{{ $value }}</a>
-                                                         {{-- <a class="btn btn-success" href="{{ route('') }}">users</a> --}}
                                                      @elseif ($value == 'roles')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             href="{{ route($role_name . '.' . $value) }}"
                                                              style="text-transform: uppercase;">{{ $value }}</a>
                                                      @elseif ($value == 'permissions')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             href="{{ route($role_name . '.' . $value) }}"
                                                              style="text-transform: uppercase;">{{ $value }}</a>
                                                      @elseif ($value == 'projects')
                                                          <a class="btn btn-primary"
-                                                             href="{{ route(Auth::user()->name . '.' . $value) }}"
+                                                             href="{{ route($role_name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
+                                                     @elseif ($value == 'media')
+                                                         <a class="btn btn-primary"
+                                                             href="{{ route($role_name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
+                                                     @elseif ($value == 'documents')
+                                                         <a class="btn btn-primary"
+                                                             href="{{ route($role_name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
+                                                     @elseif ($value == 'tasks')
+                                                         <a class="btn btn-primary"
+                                                             href="{{ route($role_name . '.' . $value) }}"
+                                                             style="text-transform: uppercase;">{{ $value }}</a>
+                                                     @elseif ($value == 'dailyTask')
+                                                         <a class="btn btn-primary"
+                                                             href="{{ route($role_name . '.' . $value) }}"
                                                              style="text-transform: uppercase;">{{ $value }}</a>
                                                      @else
                                                      @endif
