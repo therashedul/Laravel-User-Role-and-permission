@@ -19,7 +19,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th width="280px">Action</th>
+                                <th width="200px">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,8 +34,6 @@
                                     <td>{{ $role->id }}</td>
                                     <td>{{ $role->name }}</td>
                                     <td>
-                                        {{-- <a class="btn btn-success" href="{{ route('roles.show', $role->id) }}">Show</a>
-                                        <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">Edit</a> --}}
                                         @foreach ($rhps as $rhp)
                                             @foreach ($permissions as $permission)
                                                 @if ($role->id == Auth::user()->role_id && $role->id == $rhp->role_id)
@@ -46,20 +44,23 @@
                                                         @if (stristr($name, 'role'))
                                                             @php
                                                                 $value = substr(strstr($name, '-'), 1);
-                                                                // echo $value;
                                                             @endphp
                                                             @if ($value == 'list')
-                                                                <a class="btn btn-success"
-                                                                    href="{{ route('admin.roles.show', $role->id) }}">Show</a>
+                                                                <a class="btn btn-success btn-sm"
+                                                                    href="{{ route('admin.roles.show', $role->id) }}"><i
+                                                                        class="fas fa-eye"></i></a>
                                                             @elseif ($value == 'create')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.create') }}">New Role</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.create') }}"><i
+                                                                        class="fas fa-plus"></i></a>
                                                             @elseif ($value == 'edit')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.edit', $role->id) }}"><i
+                                                                        class="fas fa-edit"></i></a>
                                                             @elseif ($value == 'delete')
                                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['admin.roles.destroy', $role->id], 'style' => 'display:inline']) !!}
-                                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                                {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn btn-danger btn-sm']) }}
+                                                                {{-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} --}}
                                                             @else
                                                             @endif
                                                         @endif
@@ -74,17 +75,20 @@
                                                                 $value = substr(strstr($name, '-'), 1);
                                                             @endphp
                                                             @if ($value == 'list')
-                                                                <a class="btn btn-success"
-                                                                    href="{{ route('admin.roles.show', $role->id) }}">Show</a>
+                                                                <a class="btn btn-success btn-sm"
+                                                                    href="{{ route('admin.roles.show', $role->id) }}"><i
+                                                                        class="fas fa-eye"></i></a>
                                                             @elseif ($value == 'create')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.create') }}">New Role</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.create') }}"><i
+                                                                        class="fas fa-plus"></i></a>
                                                             @elseif ($value == 'edit')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.edit', $role->id) }}"><i
+                                                                        class="fas fa-edit"></i></a>
                                                             @elseif ($value == 'delete')
                                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['admin.roles.destroy', $role->id], 'style' => 'display:inline']) !!}
-                                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                                {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn btn-danger btn-sm']) }}
                                                             @else
                                                             @endif
                                                         @endif
@@ -100,17 +104,21 @@
                                                                 // echo $value;
                                                             @endphp
                                                             @if ($value == 'list')
-                                                                <a class="btn btn-success"
-                                                                    href="{{ route('admin.roles.show', $role->id) }}">Show</a>
+                                                                <a class="btn btn-success btn-sm"
+                                                                    href="{{ route('admin.roles.show', $role->id) }}"><i
+                                                                        class="fas fa-eye"></i></a>
                                                             @elseif ($value == 'create')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.create') }}">New Role</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.create') }}"><i
+                                                                        class="fas fa-plus"></i></a>
                                                             @elseif ($value == 'edit')
-                                                                <a class="btn btn-primary"
-                                                                    href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
+                                                                <a class="btn btn-primary btn-sm"
+                                                                    href="{{ route('admin.roles.edit', $role->id) }}"><i
+                                                                        class="fas fa-edit"></i></a>
                                                             @elseif ($value == 'delete')
                                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['admin.roles.destroy', $role->id], 'style' => 'display:inline']) !!}
-                                                                {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                                {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn btn-danger btn-sm']) }}
+                                                                {!! Form::close() !!}
                                                             @else
                                                             @endif
                                                         @endif
@@ -118,19 +126,6 @@
                                                 @endif
                                             @endforeach
                                         @endforeach
-
-                                        {{-- <a class="btn btn-success"
-                                            href="{{ route('admin.roles.show', $role->id) }}">Show</a>
-                                        <a class="btn btn-primary"
-                                            href="{{ route('admin.roles.edit', $role->id) }}">Edit</a>
-
-
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['admin.roles.destroy', $role->id], 'style' => 'display:inline']) !!}
-
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                        {!! Form::close() !!} --}}
-
-
                                     </td>
                                 </tr>
                             @endforeach

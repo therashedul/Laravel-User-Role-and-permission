@@ -29,7 +29,7 @@
                         {!! Form::password('password_confirmation', ['placeholder' => 'Confirm Password', 'class' => 'form-control']) !!}
                     </div>
                     <div class="form-group">
-                        <strong>Status:</strong>
+                        <strong>Active:</strong>
                         <input type="hidden" value="0" class="js-switch" name="status_id"
                             {{ $user->status_id == 0 ? 'checked' : '' }}>
                         <input type="checkbox" value="1" class="js-switch" name="status_id"

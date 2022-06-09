@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">Permission
                     <span class="float-right">
-                        <a class="btn btn-primary" href="{{ route('admin.permissions') }}">Back</a>
+                        <a class="btn btn-primary" href="{{ route('executive.permissions') }}">Back</a>
                     </span>
                 </div>
                 <div class="card-body">

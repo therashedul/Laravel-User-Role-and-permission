@@ -1,6 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CustomAuthController;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -8,77 +20,156 @@ Route::get('/', function () {
 
 
 // Auth::routes();
-Auth::routes(['register' => false]);
+Auth::routes(['register' => false]);  // Can`t registrition with out login
 
-Route::get('login', [App\Http\Controllers\CustomAuthController::class, 'index'])->name('login');
-Route::post('custom-login', [App\Http\Controllers\CustomAuthController::class, 'customLogin'])->name('login.custom'); 
-Route::get('registration', [App\Http\Controllers\CustomAuthController::class, 'registration'])->name('register-user');
-Route::post('custom-registration', [App\Http\Controllers\CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
-Route::get('signout', [App\Http\Controllers\CustomAuthController::class, 'signOut'])->name('signout');
+Route::get('login', [CustomAuthController::class, 'index'])->name('login');
+Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
+Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
-Route::group(['prefix' => 'admin','middleware' => ['auth','admin','priventBackHistory']], function() {
+Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware' => ['auth','admin','priventBackHistory']], function() {
     Route::get('/', [App\Http\Controllers\AdminController::class, 'index'])->name('admin');
     // Users
-    Route::get('users', [App\Http\Controllers\AdminController::class, 'user'])->name('admin.users');
-    Route::get('/users.create',  [App\Http\Controllers\AdminController::class, 'usercreate'])->name('admin.users.create');
-    Route::post('users.store', [App\Http\Controllers\AdminController::class, 'userstore'])->name('admin.users.store');
-    Route::get('users.show.{id}', [App\Http\Controllers\AdminController::class, 'usershow'])->name('admin.users.show');
-    Route::get('users.edit.{id}', [App\Http\Controllers\AdminController::class, 'useredit'])->name('admin.users.edit');
-    Route::get('users.publish.{id}', [App\Http\Controllers\AdminController::class, 'userpublish'])->name('admin.users.publish');
-    Route::get('users.unpublish.{id}', [App\Http\Controllers\AdminController::class, 'userunpublish'])->name('admin.users.unpublish');
-    Route::patch('users.update.{id}', [App\Http\Controllers\AdminController::class, 'userupdate'])->name('admin.users.update');
-    Route::delete('/users.destroy.{id}', [App\Http\Controllers\AdminController::class, 'userdestroy'])->name('admin.users.destroy');
+    Route::get('users', [App\Http\Controllers\AdminController::class, 'user'])->name('users');
+    Route::get('/users.create',  [App\Http\Controllers\AdminController::class, 'usercreate'])->name('users.create');
+    Route::post('users.store', [App\Http\Controllers\AdminController::class, 'userstore'])->name('users.store');
+    Route::get('users.show.{id}', [App\Http\Controllers\AdminController::class, 'usershow'])->name('users.show');
+    Route::get('users.edit.{id}', [App\Http\Controllers\AdminController::class, 'useredit'])->name('users.edit');
+    Route::get('users.publish.{id}', [App\Http\Controllers\AdminController::class, 'userpublish'])->name('users.publish');
+    Route::get('users.unpublish.{id}', [App\Http\Controllers\AdminController::class, 'userunpublish'])->name('users.unpublish');
+    Route::patch('users.update.{id}', [App\Http\Controllers\AdminController::class, 'userupdate'])->name('users.update');
+    Route::delete('/users.destroy.{id}', [App\Http\Controllers\AdminController::class, 'userdestroy'])->name('users.destroy');
     // Admin role
-    Route::get('/roles', [App\Http\Controllers\AdminController::class, 'role'])->name('admin.roles');
-    Route::get('/roles.create', [App\Http\Controllers\AdminController::class, 'rolecreate'])->name('admin.roles.create');
-    Route::post('/roles.store', [App\Http\Controllers\AdminController::class, 'rolestore'])->name('admin.roles.store');
-    Route::get('/roles.show.{id}', [App\Http\Controllers\AdminController::class, 'roleshow'])->name('admin.roles.show');
-    Route::get('/roles.edit.{id}', [App\Http\Controllers\AdminController::class, 'roleedit'])->name('admin.roles.edit');
-    Route::patch('/roles.update.{id}', [App\Http\Controllers\AdminController::class, 'roleupdate'])->name('admin.roles.update');
-    Route::delete('/roles.destroy.{id}', [App\Http\Controllers\AdminController::class, 'roledelete'])->name('admin.roles.destroy');
+    Route::get('/roles', [App\Http\Controllers\AdminController::class, 'role'])->name('roles');
+    Route::get('/roles.create', [App\Http\Controllers\AdminController::class, 'rolecreate'])->name('roles.create');
+    Route::post('/roles.store', [App\Http\Controllers\AdminController::class, 'rolestore'])->name('roles.store');
+    Route::get('/roles.show.{id}', [App\Http\Controllers\AdminController::class, 'roleshow'])->name('roles.show');
+    Route::get('/roles.edit.{id}', [App\Http\Controllers\AdminController::class, 'roleedit'])->name('roles.edit');
+    Route::patch('/roles.update.{id}', [App\Http\Controllers\AdminController::class, 'roleupdate'])->name('roles.update');
+    Route::delete('/roles.destroy.{id}', [App\Http\Controllers\AdminController::class, 'roledelete'])->name('roles.destroy');
     
+    // Media
+    Route::get('/media', [App\Http\Controllers\AdminController::class, 'media'])->name('media');
+    Route::post('/media.upload', [App\Http\Controllers\AdminController::class, 'mediaupload'])->name('media.upload');
+    Route::get('/media.fetch', [App\Http\Controllers\AdminController::class, 'mediafetch'])->name('media.fetch');
+    Route::get('/media.delete', [App\Http\Controllers\AdminController::class, 'mediauploaddelete'])->name('media.delete');
+    Route::post('/media.search', [App\Http\Controllers\AdminController::class, 'mediasearch'])->name('media.search'); 
+      
+    // Project
+    Route::get('/projects', [App\Http\Controllers\AdminController::class, 'projects'])->name('projects');
+    Route::get('/projects.create', [App\Http\Controllers\AdminController::class, 'projectscreate'])->name('projects.create');
+    Route::post('/projects.store', [App\Http\Controllers\AdminController::class, 'projectsstore'])->name('projects.store');
+    Route::post('/projects.upload', [App\Http\Controllers\AdminController::class, 'projectsupload'])->name('projects.upload');
+    Route::get('/projects.fetch', [App\Http\Controllers\AdminController::class, 'projectsfetch'])->name('projects.fetch');
+    Route::get('/projects.delete', [App\Http\Controllers\AdminController::class, 'uploaddelete'])->name('projects.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\AdminController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/projects.edit.{id}', [App\Http\Controllers\AdminController::class, 'projectsedit'])->name('projects.edit');
+    Route::patch('/projects.update.{id}', [App\Http\Controllers\AdminController::class, 'projectsupdate'])->name('projects.update');
+    Route::delete('/projects.destroy.{id}', [App\Http\Controllers\AdminController::class, 'projectsdelete'])->name('projects.destroy');
+    Route::get('/projects.imagedestroy.{id}', [App\Http\Controllers\AdminController::class, 'projectsimagedelete'])->name('projects.imagedestroy');
+    Route::post('/projects.search', [App\Http\Controllers\AdminController::class, 'projectssearch'])->name('projects.search');
+    Route::post('/projects.imagesearch', [App\Http\Controllers\AdminController::class, 'projectsimagesearch'])->name('projects.imageSearch');
+    
+    // Documents
+    Route::get('/documents', [App\Http\Controllers\AdminController::class, 'documents'])->name('documents');
+    Route::get('/documents.create', [App\Http\Controllers\AdminController::class, 'documentscreate'])->name('documents.create');
+    Route::post('/documents.store', [App\Http\Controllers\AdminController::class, 'documentsstore'])->name('documents.store');
+    Route::post('/documents.upload', [App\Http\Controllers\AdminController::class, 'documentsupload'])->name('documents.upload');
+    Route::get('/documents.fetch', [App\Http\Controllers\AdminController::class, 'documentsfetch'])->name('documents.fetch');
+    Route::get('/documents.delete', [App\Http\Controllers\AdminController::class, 'documentsuploaddelete'])->name('documents.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\AdminController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/documents.edit.{id}', [App\Http\Controllers\AdminController::class, 'documentsedit'])->name('documents.edit');
+    Route::patch('/documents.update.{id}', [App\Http\Controllers\AdminController::class, 'documentsupdate'])->name('documents.update');
+    Route::delete('/documents.destroy.{id}', [App\Http\Controllers\AdminController::class, 'documentsdelete'])->name('documents.destroy');
+    Route::get('/documents.filedestroy.{id}', [App\Http\Controllers\AdminController::class, 'documentsfiledelete'])->name('documents.filedestroy');
+    Route::post('/documents.search', [App\Http\Controllers\AdminController::class, 'documentssearch'])->name('documents.search');
+    Route::post('/documents.filesearch', [App\Http\Controllers\AdminController::class, 'documentfilessearch'])->name('documents.filesearch');
+    Route::delete('/documents.destroy.{id}', [App\Http\Controllers\AdminController::class, 'documentsdelete'])->name('documents.destroy');
     
     // Admin permission
-    Route::get('/permissions', [App\Http\Controllers\AdminController::class, 'permission'])->name('admin.permissions');
-    Route::get('/permissions.create', [App\Http\Controllers\AdminController::class, 'permissioncreate'])->name('admin.permissions.create');
-    Route::post('/permissions.store', [App\Http\Controllers\AdminController::class, 'permissionstore'])->name('admin.permissions.store');
-    Route::get('/permissions.show.{id}', [App\Http\Controllers\AdminController::class, 'permissionshow'])->name('admin.permissions.show');
-    Route::get('/permissions.edit.{id}', [App\Http\Controllers\AdminController::class, 'permissionedit'])->name('admin.permissions.edit');
-    Route::patch('/permissions.update.{id}', [App\Http\Controllers\AdminController::class, 'permissionupdate'])->name('admin.permissions.update');
-    Route::delete('/permissions.destroy.{id}', [App\Http\Controllers\AdminController::class, 'permissiondelete'])->name('admin.permissions.destroy');
-    
+    Route::get('/permissions', [App\Http\Controllers\AdminController::class, 'permission'])->name('permissions');
+    Route::get('/permissions.create', [App\Http\Controllers\AdminController::class, 'permissioncreate'])->name('permissions.create');
+    Route::post('/permissions.store', [App\Http\Controllers\AdminController::class, 'permissionstore'])->name('permissions.store');
+    Route::get('/permissions.show.{id}', [App\Http\Controllers\AdminController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/permissions.edit.{id}', [App\Http\Controllers\AdminController::class, 'permissionedit'])->name('permissions.edit');
+    Route::patch('/permissions.update.{id}', [App\Http\Controllers\AdminController::class, 'permissionupdate'])->name('permissions.update');
+    Route::delete('/permissions.destroy.{id}', [App\Http\Controllers\AdminController::class, 'permissiondelete'])->name('permissions.destroy');
+    Route::post('/permissions.search', [App\Http\Controllers\AdminController::class, 'permissionsearch'])->name('permissons.search');
+    Route::get('/permissions.permissiondelete.{id}', [App\Http\Controllers\AdminController::class, 'deletepermission'])->name('permissions.permissiondelete');
   
 
 });
 
-Route::group(['prefix' => 'executive','middleware' => ['auth','executive','priventBackHistory']], function() {
+Route::group(['prefix' => 'executive', 'as'=>'executive.', 'middleware' => ['auth','executive','priventBackHistory']], function() {
     Route::get('/', [App\Http\Controllers\ExecutiveController::class, 'index'])->name('executive');
     // Users
-    Route::get('users', [App\Http\Controllers\ExecutiveController::class, 'user'])->name('executive.users');
-    Route::get('/users.create',  [App\Http\Controllers\ExecutiveController::class, 'usercreate'])->name('executive.users.create');
-    Route::post('users.store', [App\Http\Controllers\ExecutiveController::class, 'userstore'])->name('executive.users.store');
-    Route::get('users.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'usershow'])->name('executive.users.show');
-    Route::get('users.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'useredit'])->name('executive.users.edit');
-    Route::get('users.publish.{id}', [App\Http\Controllers\ExecutiveController::class, 'userpublish'])->name('executive.users.publish');
-    Route::get('users.unpublish.{id}', [App\Http\Controllers\ExecutiveController::class, 'userunpublish'])->name('executive.users.unpublish');
-    Route::patch('users.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'userupdate'])->name('executive.users.update');
-    Route::delete('/users.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'userdestroy'])->name('executive.users.destroy');
+    Route::get('users', [App\Http\Controllers\ExecutiveController::class, 'user'])->name('users');
+    Route::get('/users.create',  [App\Http\Controllers\ExecutiveController::class, 'usercreate'])->name('users.create');
+    Route::post('users.store', [App\Http\Controllers\ExecutiveController::class, 'userstore'])->name('users.store');
+    Route::get('users.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'usershow'])->name('users.show');
+    Route::get('users.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'useredit'])->name('users.edit');
+    Route::get('users.publish.{id}', [App\Http\Controllers\ExecutiveController::class, 'userpublish'])->name('users.publish');
+    Route::get('users.unpublish.{id}', [App\Http\Controllers\ExecutiveController::class, 'userunpublish'])->name('users.unpublish');
+    Route::patch('users.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'userupdate'])->name('users.update');
+    Route::delete('/users.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'userdestroy'])->name('users.destroy');
     // Admin role
-    Route::get('/roles', [App\Http\Controllers\ExecutiveController::class, 'role'])->name('executive.roles');
-    Route::get('/roles.create', [App\Http\Controllers\ExecutiveController::class, 'rolecreate'])->name('executive.roles.create');
-    Route::post('/roles.store', [App\Http\Controllers\ExecutiveController::class, 'rolestore'])->name('executive.roles.store');
-    Route::get('/roles.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleshow'])->name('executive.roles.show');
-    Route::get('/roles.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleedit'])->name('executive.roles.edit');
-    Route::patch('/roles.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleupdate'])->name('executive.roles.update');
-    Route::delete('/roles.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'roledelete'])->name('executive.roles.destroy');
+    Route::get('/roles', [App\Http\Controllers\ExecutiveController::class, 'role'])->name('roles');
+    Route::get('/roles.create', [App\Http\Controllers\ExecutiveController::class, 'rolecreate'])->name('roles.create');
+    Route::post('/roles.store', [App\Http\Controllers\ExecutiveController::class, 'rolestore'])->name('roles.store');
+    Route::get('/roles.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleshow'])->name('roles.show');
+    Route::get('/roles.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleedit'])->name('roles.edit');
+    Route::patch('/roles.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'roleupdate'])->name('roles.update');
+    Route::delete('/roles.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'roledelete'])->name('roles.destroy');
+   
+   // Media
+    Route::get('/media', [App\Http\Controllers\ExecutiveController::class, 'media'])->name('media');
+    Route::post('/media.upload', [App\Http\Controllers\ExecutiveController::class, 'mediaupload'])->name('media.upload');
+    Route::get('/media.fetch', [App\Http\Controllers\ExecutiveController::class, 'mediafetch'])->name('media.fetch');
+    Route::get('/media.delete', [App\Http\Controllers\ExecutiveController::class, 'mediauploaddelete'])->name('media.delete');
+    Route::post('/media.search', [App\Http\Controllers\ExecutiveController::class, 'mediasearch'])->name('media.search'); 
+      
+    // Project
+    Route::get('/projects', [App\Http\Controllers\ExecutiveController::class, 'projects'])->name('projects');
+    Route::get('/projects.create', [App\Http\Controllers\ExecutiveController::class, 'projectscreate'])->name('projects.create');
+    Route::post('/projects.store', [App\Http\Controllers\ExecutiveController::class, 'projectsstore'])->name('projects.store');
+    Route::post('/projects.upload', [App\Http\Controllers\ExecutiveController::class, 'projectsupload'])->name('projects.upload');
+    Route::get('/projects.fetch', [App\Http\Controllers\ExecutiveController::class, 'projectsfetch'])->name('projects.fetch');
+    Route::get('/projects.delete', [App\Http\Controllers\ExecutiveController::class, 'uploaddelete'])->name('projects.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/projects.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'projectsedit'])->name('projects.edit');
+    Route::patch('/projects.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'projectsupdate'])->name('projects.update');
+    Route::delete('/projects.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'projectsdelete'])->name('projects.destroy');
+    Route::get('/projects.imagedestroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'projectsimagedelete'])->name('projects.imagedestroy');
+    Route::post('/projects.search', [App\Http\Controllers\ExecutiveController::class, 'projectssearch'])->name('projects.search');
+    Route::post('/projects.imagesearch', [App\Http\Controllers\ExecutiveController::class, 'projectsimagesearch'])->name('projects.imageSearch');
+    
+    // Documents
+    Route::get('/documents', [App\Http\Controllers\ExecutiveController::class, 'documents'])->name('documents');
+    Route::get('/documents.create', [App\Http\Controllers\ExecutiveController::class, 'documentscreate'])->name('documents.create');
+    Route::post('/documents.store', [App\Http\Controllers\ExecutiveController::class, 'documentsstore'])->name('documents.store');
+    Route::post('/documents.upload', [App\Http\Controllers\ExecutiveController::class, 'documentsupload'])->name('documents.upload');
+    Route::get('/documents.fetch', [App\Http\Controllers\ExecutiveController::class, 'documentsfetch'])->name('documents.fetch');
+    Route::get('/documents.delete', [App\Http\Controllers\ExecutiveController::class, 'documentsuploaddelete'])->name('documents.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/documents.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'documentsedit'])->name('documents.edit');
+    Route::patch('/documents.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'documentsupdate'])->name('documents.update');
+    Route::delete('/documents.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'documentsdelete'])->name('documents.destroy');
+    Route::get('/documents.filedestroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'documentsfiledelete'])->name('documents.filedestroy');
+    Route::post('/documents.search', [App\Http\Controllers\ExecutiveController::class, 'documentssearch'])->name('documents.search');
+    Route::post('/documents.filesearch', [App\Http\Controllers\ExecutiveController::class, 'documentfilessearch'])->name('documents.filesearch');
+    Route::delete('/documents.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'documentsdelete'])->name('documents.destroy');
+    
     // Admin permission
-     Route::get('/permissions', [App\Http\Controllers\ExecutiveController::class, 'permission'])->name('executive.permissions');
-    Route::get('/permissions.create', [App\Http\Controllers\ExecutiveController::class, 'permissioncreate'])->name('executive.permissions.create');
-    Route::post('/permission.store', [App\Http\Controllers\ExecutiveController::class, 'permissionstore'])->name('executive.permissions.store');
-    Route::get('/permissions.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionshow'])->name('executive.permissions.show');
-    Route::get('/permissions.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionedit'])->name('executive.permissions.edit');
-    Route::patch('/permissions.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionupdate'])->name('executive.permissions.update');
-    Route::delete('/permissions.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissiondelete'])->name('executive.permissions.destroy');
+    Route::get('/permissions', [App\Http\Controllers\ExecutiveController::class, 'permission'])->name('permissions');
+    Route::get('/permissions.create', [App\Http\Controllers\ExecutiveController::class, 'permissioncreate'])->name('permissions.create');
+    Route::post('/permissions.store', [App\Http\Controllers\ExecutiveController::class, 'permissionstore'])->name('permissions.store');
+    Route::get('/permissions.show.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionshow'])->name('permissions.show');
+    Route::get('/permissions.edit.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionedit'])->name('permissions.edit');
+    Route::patch('/permissions.update.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissionupdate'])->name('permissions.update');
+    Route::delete('/permissions.destroy.{id}', [App\Http\Controllers\ExecutiveController::class, 'permissiondelete'])->name('permissions.destroy');
+    Route::post('/permissions.search', [App\Http\Controllers\ExecutiveController::class, 'permissionsearch'])->name('permissons.search');
+    Route::get('/permissions.permissiondelete.{id}', [App\Http\Controllers\ExecutiveController::class, 'deletepermission'])->name('permissions.permissiondelete');
 
 });
 Route::group(['prefix' => 'developer','middleware' => ['auth','developer','priventBackHistory']], function() {
@@ -93,7 +184,7 @@ Route::group(['prefix' => 'developer','middleware' => ['auth','developer','prive
     Route::get('users.unpublish.{id}', [App\Http\Controllers\DeveloperController::class, 'userunpublish'])->name('developer.users.unpublish');
     Route::patch('users.update.{id}', [App\Http\Controllers\DeveloperController::class, 'userupdate'])->name('developer.users.update');
     Route::delete('/users.destroy.{id}', [App\Http\Controllers\DeveloperController::class, 'userdestroy'])->name('developer.users.destroy');
-    // Admin role
+    // developer role
     Route::get('/roles', [App\Http\Controllers\DeveloperController::class, 'role'])->name('developer.roles');
     Route::get('/roles.create', [App\Http\Controllers\DeveloperController::class, 'rolecreate'])->name('developer.roles.create');
     Route::post('/roles.store', [App\Http\Controllers\DeveloperController::class, 'rolestore'])->name('developer.roles.store');
@@ -101,7 +192,7 @@ Route::group(['prefix' => 'developer','middleware' => ['auth','developer','prive
     Route::get('/roles.edit.{id}', [App\Http\Controllers\DeveloperController::class, 'roleedit'])->name('developer.roles.edit');
     Route::patch('/roles.update.{id}', [App\Http\Controllers\DeveloperController::class, 'roleupdate'])->name('developer.roles.update');
     Route::delete('/roles.destroy.{id}', [App\Http\Controllers\DeveloperController::class, 'roledelete'])->name('developer.roles.destroy');
-    // Admin permission
+    // developer permission
     Route::get('/permissions', [App\Http\Controllers\DeveloperController::class, 'permission'])->name('developer.permissions');
     Route::get('/permissions.create', [App\Http\Controllers\DeveloperController::class, 'permissioncreate'])->name('developer.permissions.create');
     Route::post('/permissions.store', [App\Http\Controllers\DeveloperController::class, 'permissionstore'])->name('developer.permissions.store');
@@ -110,17 +201,63 @@ Route::group(['prefix' => 'developer','middleware' => ['auth','developer','prive
     Route::patch('/permissions.update.{id}', [App\Http\Controllers\DeveloperController::class, 'permissionupdate'])->name('developer.permissions.update');
     Route::delete('/permissions.destroy.{id}', [App\Http\Controllers\DeveloperController::class, 'permissiondelete'])->name('developer.permissions.destroy');
 
+    // Media
+    Route::get('/media', [App\Http\Controllers\DeveloperController::class, 'media'])->name('developer.media');
+    Route::post('/media.upload', [App\Http\Controllers\DeveloperController::class, 'mediaupload'])->name('developer.media.upload');    
+    Route::get('/media.fetch', [App\Http\Controllers\DeveloperController::class, 'mediafetch'])->name('developer.media.fetch');
+    Route::get('/media.delete', [App\Http\Controllers\DeveloperController::class, 'mediauploaddelete'])->name('developer.media.delete');
+    Route::post('/media.search', [App\Http\Controllers\DeveloperController::class, 'mediasearch'])->name('developer.media.search'); 
+    
+    
+    // Project
+    Route::get('/projects', [App\Http\Controllers\DeveloperController::class, 'projects'])->name('developer.projects');
+    Route::get('/projects.create', [App\Http\Controllers\DeveloperController::class, 'projectscreate'])->name('developer.projects.create');
+    Route::post('/projects.store', [App\Http\Controllers\DeveloperController::class, 'projectsstore'])->name('developer.projects.store');
+    Route::post('/projects.upload', [App\Http\Controllers\DeveloperController::class, 'projectsupload'])->name('developer.projects.upload');
+   
+    Route::get('/projects.fetch', [App\Http\Controllers\DeveloperController::class, 'projectsfetch'])->name('developer.projects.fetch');
+    Route::get('/projects.delete', [App\Http\Controllers\DeveloperController::class, 'uploaddelete'])->name('developer.projects.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\DeveloperController::class, 'permissionshow'])->name('developer.permissions.show');
+    Route::get('/projects.edit.{id}', [App\Http\Controllers\DeveloperController::class, 'projectsedit'])->name('developer.projects.edit');
+    Route::patch('/projects.update.{id}', [App\Http\Controllers\DeveloperController::class, 'projectsupdate'])->name('developer.projects.update');
+    Route::delete('/projects.destroy.{id}', [App\Http\Controllers\DeveloperController::class, 'projectsdelete'])->name('developer.projects.destroy');
+    Route::post('/projects.search', [App\Http\Controllers\DeveloperController::class, 'projectssearch'])->name('developer.projects.search');
+
+     // Documents
+    Route::get('/documents', [App\Http\Controllers\DeveloperController::class, 'documents'])->name('developer.documents');
+    Route::get('/documents.create', [App\Http\Controllers\DeveloperController::class, 'documentscreate'])->name('developer.documents.create');
+    Route::post('/documents.store', [App\Http\Controllers\DeveloperController::class, 'documentsstore'])->name('developer.documents.store');
+    Route::post('/documents.upload', [App\Http\Controllers\DeveloperController::class, 'documentsupload'])->name('developer.documents.upload');
+  
+    Route::get('/documents.fetch', [App\Http\Controllers\DeveloperController::class, 'documentsfetch'])->name('developer.documents.fetch');
+    Route::get('/documents.delete', [App\Http\Controllers\DeveloperController::class, 'documentsuploaddelete'])->name('developer.documents.delete');
+    // Route::get('/permissions.show.{id}', [App\Http\Controllers\DeveloperController::class, 'permissionshow'])->name('developer.permissions.show');
+    Route::get('/documents.edit.{id}', [App\Http\Controllers\DeveloperController::class, 'documentsedit'])->name('developer.documents.edit');
+    Route::patch('/documents.update.{id}', [App\Http\Controllers\DeveloperController::class, 'documentsupdate'])->name('developer.documents.update');
+    Route::delete('/documents.destroy.{id}', [App\Http\Controllers\DeveloperController::class, 'documentsdelete'])->name('developer.documents.destroy');
+    Route::post('/documents.search', [App\Http\Controllers\DeveloperController::class, 'documentssearch'])->name('developer.documents.search');
+
 });
 
-// Route::group(['middleware' => ['auth']], function() {
-//     Route::resource('users', App\Http\Controllers\UserController::class);
-//     Route::resource('roles', App\Http\Controllers\RoleController::class);
-//     Route::resource('permissions', App\Http\Controllers\PermissionController::class);	
-// });
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+    Route::resource('permissions', App\Http\Controllers\PermissionController::class);	
+});
 // Route::get('/executive', [App\Http\Controllers\ExecutiveController::class, 'index'])->name('executive')->middleware('executive');
+
 // Route::get('/developer', [App\Http\Controllers\DeveloperController::class, 'index'])->name('developer')->middleware('developer');
+
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+// Route::group(['middleware' => ['auth',]], function() {
+//     Route::get('users', 'App\Http\Controllers\UserController@index')->name('users.index');
+//     Route::get('/create', 'App\Http\Controllers\UserController@create')->name('users.create');
+//     Route::post('store', 'App\Http\Controllers\UserController@store')->name('users.store');
+//     Route::get('users.{id}', 'App\Http\Controllers\UserController@show')->name('users.show');
+//     Route::get('edit.{id}', 'App\Http\Controllers\UserController@edit')->name('users.edit');
+//     Route::patch('users.update.{id}', 'App\Http\Controllers\UserController@update')->name('users.update');
+//     Route::delete('destroy.{id}', 'App\Http\Controllers\UserController@destroy')->name('users.destroy');
+// });
 
 

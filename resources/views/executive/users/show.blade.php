@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-header">User
                     <span class="float-right">
-                        <a class="btn btn-primary" href="{{ route('admin.users') }}">Back</a>
+                        <a class="btn btn-primary" href="{{ route('executive.users') }}">Back</a>
                     </span>
                 </div>
                 <div class="card-body">

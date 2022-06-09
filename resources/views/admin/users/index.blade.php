@@ -8,15 +8,30 @@
                 </div>
             @endif
             <div class="card">
-                <div class="card-header">Users
-                    <span class="float-right">
-                        {{-- <a class="btn btn-primary" href="{{ route('admin.users.create') }}">New User</a> --}}
-                        {{-- <a class="btn btn-primary" href="{{ route('users.roles') }}">User Role</a> --}}
-                    </span>
+                <div class="card-header">User
+                    @php
+                        $role_id = Auth::user()->role_id;
+                        $rhps = DB::table('role_has_permissions')
+                            ->where('role_id', $role_id)
+                            ->get();
+                        $permissions = DB::table('permissions')->get();
+                        foreach ($rhps as $rhpsvalue) {
+                            $permissionId = $rhpsvalue->permission_id;
+                            foreach ($permissions as $pvalue) {
+                                $pid = $pvalue->id;
+                                if ($permissionId == $pid) {
+                                    // print_r($pvalue->name);
+                                    if ($pvalue->name == 'user-create') {
+                                        echo ' <span class="float-right">';
+                                        echo '<a class="btn btn-primary btn-sm" href="users.create"><i class="fas fa-plus"></i> New User</a>';
+                                        echo '</span>';
+                                    }
+                                }
+                            }
+                        }
+                    @endphp
                 </div>
                 <div class="card-body">
-
-
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -24,7 +39,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th width="250px">Action</th>
+                                <th width="200px" valign="center">Action</th>
                             </tr>
                         </thead>
                         @php
@@ -44,7 +59,6 @@
                                                 {{ $role->name }}
                                             @endif
                                         @endforeach
-
                                     </td>
                                     <td>
                                         {{-- <a class="btn btn-success" href="{{ route('users.show', $user->id) }}">Show</a>
@@ -64,31 +78,34 @@
                                                                     // echo $value;
                                                                 @endphp
                                                                 @if ($value == 'list')
-                                                                    <a class="btn btn-success"
-                                                                        href="{{ route('admin.users.show', $user->id) }}">Show</a>
+                                                                    <a class="btn btn-success btn-sm"
+                                                                        href="{{ route('admin.users.show', $user->id) }}"><i
+                                                                            class="fas fa-eye"></i></a>
                                                                 @elseif ($value == 'create')
-                                                                    <a class="btn btn-primary"
-                                                                        href="{{ route('admin.users.create') }}">New
-                                                                        user</a>
-                                                                @elseif ($value == 'edit')
-                                                                    <a class="btn btn-primary"
-                                                                        href="{{ route('admin.users.edit', $user->id) }}">Edit</a>
+                                                                    {{-- <a class="btn btn-primary"
+                                                                    href="{{ route('admin.users.create') }}">New
+                                                                    user</a> --}}
                                                                 @elseif ($value == 'active')
                                                                     @if ($user->status_id == 1)
                                                                         <a href="{{ route('admin.users.publish', $user->id) }}"
-                                                                            class="btn btn-info "><i
+                                                                            class="btn btn-info btn-sm"><i
                                                                                 class="fa fa-arrow-circle-up"
                                                                                 aria-hidden="true"></i></a>
                                                                     @else
                                                                         <a href="{{ route('admin.users.unpublish', $user->id) }}"
-                                                                            class="btn btn-info btn-warning">
+                                                                            class="btn btn-info btn-warning btn-sm">
                                                                             <i class="fa fa-arrow-circle-down "
-                                                                                aria-hidden="true"></i>
-                                                                        </a>
+                                                                                aria-hidden="true"></i></a>
                                                                     @endif
+                                                                @elseif ($value == 'edit')
+                                                                    <a class="btn btn-primary btn-sm"
+                                                                        href="{{ route('admin.users.edit', $user->id) }}"><i
+                                                                            class="fas fa-edit"></i></a>
                                                                 @elseif ($value == 'delete')
                                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['admin.users.destroy', $user->id], 'style' => 'display:inline']) !!}
-                                                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                                                    {{ Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn btn-danger btn-sm']) }}
+                                                                    {!! Form::close() !!}
+                                                                    {{-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} --}}
                                                                 @else
                                                                 @endif
                                                             @endif

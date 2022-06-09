@@ -25,8 +25,8 @@
                     <div class="form-group">
                         <strong class="mb-2"
                             style="text-align: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    font-size: 18px;">Name:</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        font-size: 18px;">Name:</strong>
                         <div class="form-group">
                             <select style="width:25%;margin-top: 10px;" name="role_id" class="form-control">
                                 <option value="{{ $role->id }}">{{ $role->name ? $role->name : '' }}</option>
@@ -37,8 +37,8 @@
                     <div class="form-group">
                         <strong class="mt-3"
                             style="text-align: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 22px;">Permission:</strong>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     display: flex;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 font-size: 22px;">Permission:</strong>
                         <br />
                         <div class="col-md-3">
                             <!-- Tabs nav -->
@@ -52,12 +52,31 @@
                                     href="#v-pills-role" role="tab" aria-controls="v-pills-role" aria-selected="false">
                                     <i class="fa fa-check mr-2"></i>
                                     <span class="font-weight-bold small text-uppercase">User Role</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-project-tab" data-toggle="pill"
+                                    href="#v-pills-project" role="tab" aria-controls="v-pills-project"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Project</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-document-tab" data-toggle="pill"
+                                    href="#v-pills-document" role="tab" aria-controls="v-pills-document"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Document</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-media-tab" data-toggle="pill"
+                                    href="#v-pills-media" role="tab" aria-controls="v-pills-media" aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Media</span></a>
 
                                 <a class="nav-link mb-3 p-3 shadow" id="v-pills-permission-tab" data-toggle="pill"
                                     href="#v-pills-permission" role="tab" aria-controls="v-pills-permission"
                                     aria-selected="false">
                                     <i class="fa fa-check mr-2"></i>
                                     <span class="font-weight-bold small text-uppercase">Permission</span></a>
+
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-menu-tab" data-toggle="pill"
+                                    href="#v-pills-menu" role="tab" aria-controls="v-pills-menu" aria-selected="false">
+                                    <i class="fa fa-star mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Menu</span></a>
 
                             </div>
                         </div>
@@ -124,13 +143,129 @@
                                         @endif
                                     @endforeach
                                 </div>
+                                {{-- Project --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-project" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $project = stristr($name, 'project');
+                                        @endphp
+                                        @if ($value->name == $project)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- document --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-document" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $document = stristr($name, 'document');
+                                        @endphp
+                                        @if ($value->name == $document)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- media --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-media" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $media = stristr($name, 'media');
+                                        @endphp
+                                        @if ($value->name == $media)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
                                 {{-- <button type="submit" class="btn btn-success col-md-6 float-right mr-3 mt-3">Submit</button>
                                 @php
                                     die();
                                 @endphp --}}
                                 {{-- permission --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-menu" role="tabpanel"
+                                    aria-labelledby="v-pills-menu-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                            $name = $value->name;
+                                            $menu = stristr($name, 'menu');
+                                        @endphp
+                                        {{-- {{ $menu }} --}}
+                                        @if ($value->name == $menu)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+
+                                </div>
                                 <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-permission"
                                     role="tabpanel" aria-labelledby="v-pills-permission-tab">
+
                                     @foreach ($permission as $value)
                                         @php
                                             $checked = '';
@@ -155,6 +290,9 @@
                                         @endif
                                     @endforeach
                                 </div>
+
+
+
                             </div>
                             <button type="submit" class="btn btn-success col-md-6 float-right mr-3 mt-3">Submit</button>
                         </div>

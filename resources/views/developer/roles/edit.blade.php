@@ -16,29 +16,23 @@
             <div class="card">
                 <div class="card-header">Edit role
                     <span class="float-right">
-                        <a class="btn btn-primary" href="{{ route('developer.roles') }}">Roles</a>
+                        <a class="btn btn-primary" href="{{ route('admin.roles') }}">Roles</a>
                     </span>
                 </div>
                 <div class="card-body">
-
-                    {!! Form::model($role, ['route' => ['developer.roles.update', $role->id], 'method' => 'PATCH']) !!}
+                    {!! Form::model($role, ['route' => ['admin.roles.update', $role->id], 'method' => 'PATCH']) !!}
                     <div class="form-group">
                         <strong class="mb-2"
-                            style="text-align: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            font-size: 18px;">Name:</strong>
+                            style="text-align: center;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              font-size: 18px;">Name:</strong>
                         <div class="form-group">
                             <select style="width:25%;margin-top: 10px;" name="role_id" class="form-control">
                                 <option value="{{ $role->id }}">{{ $role->name ? $role->name : '' }}</option>
-
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <strong class="mt-3"
-                            style="text-align: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     font-size: 22px;">Permission:</strong>
+                            style="text-align: center;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       font-size: 22px;">Permission:</strong>
                         <br />
                         <div class="col-md-3">
                             <!-- Tabs nav -->
@@ -52,6 +46,20 @@
                                     href="#v-pills-role" role="tab" aria-controls="v-pills-role" aria-selected="false">
                                     <i class="fa fa-check mr-2"></i>
                                     <span class="font-weight-bold small text-uppercase">User Role</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-project-tab" data-toggle="pill"
+                                    href="#v-pills-project" role="tab" aria-controls="v-pills-project"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Project</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-document-tab" data-toggle="pill"
+                                    href="#v-pills-document" role="tab" aria-controls="v-pills-document"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Document</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-media-tab" data-toggle="pill"
+                                    href="#v-pills-media" role="tab" aria-controls="v-pills-media" aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Media</span></a>
 
                                 <a class="nav-link mb-3 p-3 shadow" id="v-pills-permission-tab" data-toggle="pill"
                                     href="#v-pills-permission" role="tab" aria-controls="v-pills-permission"
@@ -112,6 +120,93 @@
                                             $role = stristr($name, 'role');
                                         @endphp
                                         @if ($value->name == $role)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- Project --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-project" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $project = stristr($name, 'project');
+                                        @endphp
+                                        @if ($value->name == $project)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- document --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-document" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $document = stristr($name, 'document');
+                                        @endphp
+                                        @if ($value->name == $document)
+                                            @foreach ($rolePermissions as $rvalue)
+                                                @if ($rvalue->permission_id == $value->id)
+                                                    @php
+                                                        $checked = 'checked = ""';
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            <input class="form-check-input parent" name="permission[]" type="checkbox"
+                                                value="{{ $value->id }}" {{ $checked }}>
+                                            <input class="form-check-input parent"
+                                                style="position: absolute;                                                    display: none;"
+                                                name="unpermission[]" type="checkbox" value="{{ $value->id }}"
+                                                {{ $checked }}>
+                                            <label>{{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- media --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-media" role="tabpanel"
+                                    aria-labelledby="v-pills-role-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $checked = '';
+                                        @endphp
+                                        @php
+                                            $name = $value->name;
+                                            $media = stristr($name, 'media');
+                                        @endphp
+                                        @if ($value->name == $media)
                                             @foreach ($rolePermissions as $rvalue)
                                                 @if ($rvalue->permission_id == $value->id)
                                                     @php

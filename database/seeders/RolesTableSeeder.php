@@ -14,7 +14,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-       DB::table('roles')->insert([
+        DB::table('roles')->insert([
             'name' => 'admin',
             'slug' => 'admin',
         ]);
@@ -28,6 +28,5 @@ class RolesTableSeeder extends Seeder
             'name' => 'developer',
             'slug' => 'developer',
         ]);
-
     }
 }

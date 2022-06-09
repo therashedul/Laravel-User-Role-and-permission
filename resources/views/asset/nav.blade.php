@@ -34,7 +34,9 @@
                                                          ->where('id', $role_id)
                                                          ->get();
                                                      $role_name = $nameRole[0]->name;
+                                                     //  print_r($role_name);
                                                  @endphp
+
                                                  <li>
                                                      @if ($value == 'users')
                                                          <a class="btn btn-primary"

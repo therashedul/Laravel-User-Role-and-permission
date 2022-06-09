@@ -25,7 +25,7 @@ class Admin
         }
         // Role_id=2 (Executive)
         if(Auth::check() && Auth::user()->role_id == 2){
-            return redirect()->route('executive');
+            return \redirect()->route('executive');
         }
         // Role_id = 3 (Developer)
         if(Auth::check() && Auth::user()->role_id == 3 ){

@@ -15,11 +15,11 @@
             <div class="card">
                 <div class="card-header">Create role
                     <span class="float-right">
-                        <a class="btn btn-primary" href="{{ route('developer.roles') }}">Roles</a>
+                        <a class="btn btn-primary" href="{{ route('executive.roles') }}">Roles</a>
                     </span>
                 </div>
                 <div class="card-body">
-                    {!! Form::open(['route' => 'developer.roles.store', 'method' => 'POST']) !!}
+                    {!! Form::open(['route' => 'executive.roles.store', 'method' => 'POST']) !!}
                     <div class="form-group">
                         <strong>User:</strong>
                         <select style="width:25%;margin-top: 10px;" name="role_id" class="form-control">
@@ -30,9 +30,7 @@
                     </div>
                     <div class="form-group">
                         <strong class="mt-3"
-                            style="text-align: center;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 display: flex;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             font-size: 22px;">Permission:</strong>
+                            style="text-align: center;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       font-size: 22px;">Permission:</strong>
                         <br />
                         <div class="col-md-3">
                             <!-- Tabs nav -->
@@ -46,7 +44,20 @@
                                     href="#v-pills-role" role="tab" aria-controls="v-pills-role" aria-selected="false">
                                     <i class="fa fa-check mr-2"></i>
                                     <span class="font-weight-bold small text-uppercase">User Role</span></a>
-
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-project-tab" data-toggle="pill"
+                                    href="#v-pills-project" role="tab" aria-controls="v-pills-project"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Project</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-document-tab" data-toggle="pill"
+                                    href="#v-pills-document" role="tab" aria-controls="v-pills-document"
+                                    aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Document</span></a>
+                                <a class="nav-link mb-3 p-3 shadow" id="v-pills-media-tab" data-toggle="pill"
+                                    href="#v-pills-media" role="tab" aria-controls="v-pills-media" aria-selected="false">
+                                    <i class="fa fa-check mr-2"></i>
+                                    <span class="font-weight-bold small text-uppercase">Media</span></a>
                                 <a class="nav-link mb-3 p-3 shadow" id="v-pills-permission-tab" data-toggle="pill"
                                     href="#v-pills-permission" role="tab" aria-controls="v-pills-permission"
                                     aria-selected="false">
@@ -76,8 +87,6 @@
                                         @endif
                                     @endforeach
                                 </div>
-
-
                                 {{-- role --}}
                                 <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-role" role="tabpanel"
                                     aria-labelledby="v-pills-role-tab">
@@ -92,12 +101,49 @@
                                         @endif
                                     @endforeach
                                 </div>
-                                {{-- <button type="submit" class="btn btn-success col-md-6 float-right mr-3 mt-3">Submit</button>
-                                @php
-                                    die();
-                                @endphp --}}
+                                {{-- project --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-project" role="tabpanel"
+                                    aria-labelledby="v-pills-project-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $name = $value->name;
+                                            $project = stristr($name, 'project');
+                                        @endphp
+                                        @if ($value->name == $project)
+                                            <label>{{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
+                                                {{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- document --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-document" role="tabpanel"
+                                    aria-labelledby="v-pills-document-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $name = $value->name;
+                                            $document = stristr($name, 'document');
+                                        @endphp
+                                        @if ($value->name == $document)
+                                            <label>{{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
+                                                {{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                {{-- media --}}
+                                <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-media" role="tabpanel"
+                                    aria-labelledby="v-pills-media-tab">
+                                    @foreach ($permission as $value)
+                                        @php
+                                            $name = $value->name;
+                                            $media = stristr($name, 'media');
+                                        @endphp
+                                        @if ($value->name == $media)
+                                            <label>{{ Form::checkbox('permission[]', $value->id, false, ['class' => 'name']) }}
+                                                {{ $value->name }}</label>
+                                        @endif
+                                    @endforeach
+                                </div>
                                 {{-- permission --}}
-                                {{-- {{ $permission }} --}}
                                 <div class="tab-pane fade shadow rounded bg-white p-5" id="v-pills-menu" role="tabpanel"
                                     aria-labelledby="v-pills-menu-tab">
                                     @foreach ($permission as $value)
